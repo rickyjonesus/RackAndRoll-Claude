@@ -23,5 +23,12 @@
       "@rackandroll/shared": ["libs/shared/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "src/tests",
+    "node_modules",
+    "tmp"
+  ]
 }
