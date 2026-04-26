@@ -1,0 +1,271 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// USERS & AUTH
+// ─────────────────────────────────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String?
+  displayName   String   @unique
+  avatarUrl     String?
+  verified      Boolean  @default(false)
+  homeVenue     String?
+  preferredGames GameType[]
+  rating        Float    @default(1000)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // social auth
+  googleId      String?  @unique
+  appleId       String?  @unique
+
+  // contacts (bidirectional)
+  sentRequests     ContactRequest[] @relation("Requester")
+  receivedRequests ContactRequest[] @relation("Recipient")
+
+  // matches
+  homeMatches  Match[] @relation("HomePlayer")
+  awayMatches  Match[] @relation("AwayPlayer")
+
+  // scheduling
+  sentChallenges     Challenge[] @relation("Challenger")
+  receivedChallenges Challenge[] @relation("Challenged")
+
+  // leagues
+  memberships LeagueMember[]
+
+  ratingHistory RatingHistory[]
+
+  @@map("users")
+}
+
+model ContactRequest {
+  id          String        @id @default(cuid())
+  requesterId String
+  recipientId String
+  status      ContactStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+
+  requester User @relation("Requester", fields: [requesterId], references: [id])
+  recipient User @relation("Recipient", fields: [recipientId], references: [id])
+
+  @@unique([requesterId, recipientId])
+  @@map("contact_requests")
+}
+
+// ─────────────────────────────────────────────
+// VENUES
+// ─────────────────────────────────────────────
+
+model Venue {
+  id        String  @id @default(cuid())
+  name      String
+  address   String?
+  lat       Float?
+  lng       Float?
+  createdBy String?
+
+  matches   Match[]
+  challenges Challenge[]
+
+  @@map("venues")
+}
+
+// ─────────────────────────────────────────────
+// MATCHES
+// ─────────────────────────────────────────────
+
+model Match {
+  id           String      @id @default(cuid())
+  homePlayerId String
+  awayPlayerId String
+  gameType     GameType
+  raceToRacks  Int?
+  homeScore    Int         @default(0)
+  awayScore    Int         @default(0)
+  winnerId     String?
+  status       MatchStatus @default(IN_PROGRESS)
+  venueId      String?
+  playedAt     DateTime    @default(now())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  disputedAt   DateTime?
+  disputedBy   String?
+
+  homePlayer User    @relation("HomePlayer", fields: [homePlayerId], references: [id])
+  awayPlayer User    @relation("AwayPlayer", fields: [awayPlayerId], references: [id])
+  venue      Venue?  @relation(fields: [venueId], references: [id])
+  racks      Rack[]
+
+  @@map("matches")
+}
+
+model Rack {
+  id        String   @id @default(cuid())
+  matchId   String
+  rackNum   Int
+  winnerId  String
+  createdAt DateTime @default(now())
+
+  match Match @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@unique([matchId, rackNum])
+  @@map("racks")
+}
+
+// ─────────────────────────────────────────────
+// SCHEDULING
+// ─────────────────────────────────────────────
+
+model Challenge {
+  id           String          @id @default(cuid())
+  challengerId String
+  challengedId String
+  gameType     GameType
+  proposedAt   DateTime
+  venueId      String?
+  status       ChallengeStatus @default(PENDING)
+  seriesId     String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  challenger User    @relation("Challenger", fields: [challengerId], references: [id])
+  challenged User    @relation("Challenged", fields: [challengedId], references: [id])
+  venue      Venue?  @relation(fields: [venueId], references: [id])
+  series     RecurringSeries? @relation(fields: [seriesId], references: [id])
+
+  @@map("challenges")
+}
+
+model RecurringSeries {
+  id         String    @id @default(cuid())
+  cadence    Cadence
+  startDate  DateTime
+  endedAt    DateTime?
+  createdAt  DateTime  @default(now())
+
+  occurrences Challenge[]
+
+  @@map("recurring_series")
+}
+
+// ─────────────────────────────────────────────
+// LEAGUES
+// ─────────────────────────────────────────────
+
+model League {
+  id        String       @id @default(cuid())
+  name      String
+  gameType  GameType
+  startDate DateTime
+  endDate   DateTime
+  createdBy String
+  status    LeagueStatus @default(DRAFT)
+  createdAt DateTime     @default(now())
+
+  members  LeagueMember[]
+  schedule LeagueMatch[]
+
+  @@map("leagues")
+}
+
+model LeagueMember {
+  id       String @id @default(cuid())
+  leagueId String
+  userId   String
+  points   Int    @default(0)
+  won      Int    @default(0)
+  lost     Int    @default(0)
+  played   Int    @default(0)
+
+  league League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([leagueId, userId])
+  @@map("league_members")
+}
+
+model LeagueMatch {
+  id         String      @id @default(cuid())
+  leagueId   String
+  homeId     String
+  awayId     String
+  scheduledAt DateTime?
+  matchId    String?     @unique
+  status     MatchStatus @default(SCHEDULED)
+
+  league League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+
+  @@map("league_matches")
+}
+
+// ─────────────────────────────────────────────
+// STATS
+// ─────────────────────────────────────────────
+
+model RatingHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  rating    Float
+  matchId   String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("rating_history")
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum GameType {
+  EIGHT_BALL
+  NINE_BALL
+  TEN_BALL
+  STRAIGHT
+}
+
+enum MatchStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  DISPUTED
+  CANCELLED
+}
+
+enum ChallengeStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELLED
+  COMPLETED
+}
+
+enum ContactStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  BLOCKED
+}
+
+enum LeagueStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum Cadence {
+  WEEKLY
+  BIWEEKLY
+}

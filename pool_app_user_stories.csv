@@ -1,0 +1,106 @@
+title,body,labels,milestone
+"US-001 · Create an account","**As a** new player, **I want to** create an account **so that** my match history and stats are saved and linked to my identity.
+
+## Acceptance criteria
+- [ ] I can register with email + password or via Google/Apple sign-in
+- [ ] I am prompted to choose a unique display name on first login
+- [ ] A verification email is sent; unverified accounts cannot challenge others
+- [ ] Passwords must be at least 8 characters","must-have,accounts","Accounts & Onboarding"
+"US-002 · Log in securely","**As a** returning player, **I want to** log in securely **so that** I can access my existing data.
+
+## Acceptance criteria
+- [ ] Login works with email/password and saved social auth tokens
+- [ ] I can reset my password via email link
+- [ ] Session persists for 30 days unless I sign out","must-have,accounts","Accounts & Onboarding"
+"US-003 · Set up player profile","**As a** player, **I want to** set up my profile with an avatar and preferred game types **so that** other players know what to expect when they challenge me.
+
+## Acceptance criteria
+- [ ] I can upload a profile photo or choose an avatar from a preset library
+- [ ] I can select one or more preferred game types (8-ball, 9-ball, 10-ball, straight)
+- [ ] I can optionally enter a home venue
+- [ ] Profile is visible to all registered users","should-have,accounts","Accounts & Onboarding"
+"US-004 · Log a match result","**As a** player, **I want to** log the result of a completed match **so that** my win/loss record stays current.
+
+## Acceptance criteria
+- [ ] I can select game type, both players, and a race-to format or final score
+- [ ] The winner is auto-calculated when a race format is used
+- [ ] Match is timestamped and stored immediately
+- [ ] Both players receive a push notification confirming the result
+- [ ] Opponent can dispute the result within 24 hours","must-have,game-logging","Game Logging"
+"US-005 · Rack-by-rack live scoring","**As a** player, **I want to** record rack-by-rack scores during a live match **so that** I have a detailed breakdown afterward.
+
+## Acceptance criteria
+- [ ] A live scoring mode shows a +1 button for each player per rack
+- [ ] Current rack count and race target are visible at all times
+- [ ] Submitting the final rack auto-resolves the match result
+- [ ] I can undo the last rack entry","must-have,game-logging","Game Logging"
+"US-006 · Tag a match with a venue","**As a** player, **I want to** tag a match with a venue **so that** I can see where I perform best.
+
+## Acceptance criteria
+- [ ] I can search for a venue by name or use my current location
+- [ ] I can create a custom venue if it's not in the list
+- [ ] Venue is shown in match history and venue-based win/loss stats are available","should-have,game-logging","Game Logging"
+"US-007 · Challenge another player","**As a** player, **I want to** challenge another player to a match **so that** we can agree on a time and place before showing up.
+
+## Acceptance criteria
+- [ ] I can pick any player from my contacts list to challenge
+- [ ] I must specify proposed date, time, venue, and game type
+- [ ] The opponent receives a push notification with the challenge details
+- [ ] The opponent can accept, decline, or propose an alternative time
+- [ ] Both players see the confirmed match on their upcoming schedule","must-have,scheduling","Match Scheduling"
+"US-008 · Match reminder notification","**As a** player, **I want to** receive a reminder before a scheduled match **so that** I don't forget to show up.
+
+## Acceptance criteria
+- [ ] A push notification fires 1 hour before the match
+- [ ] Notification includes opponent name, venue, and game type
+- [ ] I can snooze the reminder by 15 minutes from the notification","must-have,scheduling","Match Scheduling"
+"US-009 · Reschedule or cancel a match","**As a** player, **I want to** reschedule or cancel an upcoming match **so that** both players are informed when plans change.
+
+## Acceptance criteria
+- [ ] Either player can propose a new time up to 1 hour before the match
+- [ ] The other player must confirm the change
+- [ ] Either player can cancel with no confirmation required; the other is notified immediately
+- [ ] Cancelled matches are moved to history with a cancelled status","should-have,scheduling","Match Scheduling"
+"US-010 · Recurring match series","**As a** player who plays weekly games, **I want to** set up a recurring match **so that** I don't have to re-schedule every time.
+
+## Acceptance criteria
+- [ ] I can set a weekly or bi-weekly cadence for a standing match
+- [ ] Each occurrence can be individually cancelled without ending the series
+- [ ] Either player can end the series at any time","could-have,scheduling","Match Scheduling"
+"US-011 · View overall win/loss record","**As a** player, **I want to** see my overall win/loss record **so that** I can track how I'm improving over time.
+
+## Acceptance criteria
+- [ ] Dashboard shows total wins, losses, win percentage, and current streak
+- [ ] Stats can be filtered by game type and time period (last 30/90 days, all time)
+- [ ] Stats update immediately after a result is confirmed","must-have,stats","Stats & History"
+"US-012 · Head-to-head breakdown","**As a** player, **I want to** view my head-to-head record against a specific opponent **so that** I know where I stand before a rematch.
+
+## Acceptance criteria
+- [ ] Head-to-head view shows all matches between two players in reverse-chronological order
+- [ ] Summary banner shows overall W/L record between the two players
+- [ ] Each match entry shows date, venue, game type, and score","must-have,stats","Stats & History"
+"US-013 · Skill rating chart","**As a** player, **I want to** see a chart of my skill rating over time **so that** I can visualise my progression.
+
+## Acceptance criteria
+- [ ] A line chart shows my ELO/rating after each match
+- [ ] I can scrub the timeline to see rating at any point
+- [ ] Notable milestones (e.g. personal best, longest streak) are marked on the chart","should-have,stats","Stats & History"
+"US-014 · Create a league","**As a** league organiser, **I want to** create a round-robin league and invite players **so that** we have a structured competition.
+
+## Acceptance criteria
+- [ ] I can name the league, select a game type, and set a start/end date
+- [ ] I can invite players by username; they receive a notification to join
+- [ ] Once all players accept, the schedule is auto-generated
+- [ ] League standings update automatically as results are entered","should-have,leagues","Leagues & Social"
+"US-015 · View live league standings","**As a** league participant, **I want to** see the live standings table **so that** I know where I rank at any point in the season.
+
+## Acceptance criteria
+- [ ] Standings show rank, player name, played, won, lost, and points
+- [ ] My own row is highlighted
+- [ ] Table refreshes in real time when any result is posted","should-have,leagues","Leagues & Social"
+"US-016 · Search and add players","**As a** player, **I want to** search for and add other players as contacts **so that** I can challenge them to matches.
+
+## Acceptance criteria
+- [ ] I can search by display name or scan a QR code
+- [ ] Search results show username, avatar, and win rate
+- [ ] A contact request is sent; I can only challenge players who have accepted","must-have,accounts","Leagues & Social"

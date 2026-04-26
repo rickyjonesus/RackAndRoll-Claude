@@ -24,6 +24,10 @@ node_modules
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# environment
+.env
+.env.local
+
 # misc
 /.sass-cache
 /connect.lock
@@ -46,3 +50,6 @@ Thumbs.db
 .claude/worktrees
 .claude/settings.local.json
 .nx/polygraph
+.angular
+
+__screenshots__/

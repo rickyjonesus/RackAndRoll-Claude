@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pool App — Wireframes</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0ede8;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: #1a1a18;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #73726c;
+    margin-bottom: 40px;
+  }
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .screen-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .screen-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #5f5e5a;
+    text-align: center;
+  }
+  .screen-story {
+    font-size: 11px;
+    color: #888780;
+    text-align: center;
+  }
+
+  /* Phone shell */
+  .phone {
+    width: 220px;
+    background: #ffffff;
+    border-radius: 30px;
+    border: 1.5px solid #d3d1c7;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .notch {
+    background: #f1efea;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+  }
+  .notch span { font-size: 8px; color: #888780; font-weight: 500; }
+  .navbar {
+    padding: 10px 14px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid #e8e5de;
+  }
+  .navbar-title { font-size: 14px; font-weight: 500; color: #1a1a18; }
+  .navbar-action { font-size: 10px; color: #185FA5; }
+  .avatar-sm {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #E6F1FB; display: flex; align-items: center;
+    justify-content: center; font-size: 9px; font-weight: 500; color: #185FA5;
+  }
+  .body { padding: 12px 12px 8px; }
+
+  /* Stat grid */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .stat-card { background: #f5f3ee; border-radius: 9px; padding: 8px 6px; text-align: center; }
+  .stat-val { font-size: 18px; font-weight: 500; color: #1a1a18; }
+  .stat-val.green { color: #1D9E75; }
+  .stat-lbl { font-size: 8px; color: #888780; margin-top: 1px; }
+
+  /* Section label */
+  .sec { font-size: 8px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+
+  /* Chart stub */
+  .chart-stub { height: 50px; background: #f5f3ee; border-radius: 8px; display: flex; align-items: flex-end; padding: 6px 6px 0; gap: 3px; margin-bottom: 12px; }
+  .bar { border-radius: 2px 2px 0 0; flex: 1; }
+
+  /* Upcoming card */
+  .upcoming { background: #f5f3ee; border-radius: 9px; padding: 8px 10px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+  .uname { font-size: 11px; font-weight: 500; color: #1a1a18; }
+  .umeta { font-size: 9px; color: #888780; margin-top: 1px; }
+  .badge { font-size: 8px; font-weight: 500; padding: 2px 6px; border-radius: 20px; background: #E1F5EE; color: #0F6E56; white-space: nowrap; }
+  .badge-live { background: #FCEBEB; color: #A32D2D; }
+
+  /* Primary button */
+  .pbtn { width: 100%; background: #185FA5; color: #fff; border: none; border-radius: 9px; padding: 10px; font-size: 11px; font-weight: 500; cursor: pointer; text-align: center; margin-top: 4px; margin-bottom: 4px; }
+
+  /* Tab bar */
+  .tabbar { display: flex; border-top: 0.5px solid #e8e5de; padding: 6px 0 4px; }
+  .tab { flex: 1; text-align: center; font-size: 7px; color: #b4b2a9; }
+  .tab.on { color: #185FA5; }
+  .tab-icon { font-size: 14px; display: block; margin-bottom: 1px; }
+
+  /* Form elements */
+  .inp { background: #f5f3ee; border-radius: 7px; padding: 7px 9px; font-size: 9px; color: #888780; width: 100%; margin-bottom: 8px; }
+  .inp.active { color: #1a1a18; background: #EBF4FD; }
+  .row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .row .inp { margin-bottom: 0; }
+  .seg { display: flex; background: #f5f3ee; border-radius: 7px; overflow: hidden; margin-bottom: 10px; }
+  .seg-opt { flex: 1; padding: 5px 2px; text-align: center; font-size: 8px; color: #888780; }
+  .seg-opt.on { background: #185FA5; color: #fff; font-weight: 500; }
+  .divider { height: 0.5px; background: #e8e5de; margin: 8px 0; }
+
+  /* Live scoring */
+  .live-score { display: flex; gap: 6px; margin-bottom: 10px; }
+  .ls-card { flex: 1; background: #f5f3ee; border-radius: 9px; padding: 8px; text-align: center; }
+  .ls-name { font-size: 8px; color: #888780; margin-bottom: 3px; }
+  .ls-num { font-size: 30px; font-weight: 500; color: #1a1a18; line-height: 1; }
+  .ls-btn { width: 100%; border: 0.5px solid #d3d1c7; background: #fff; border-radius: 7px; padding: 5px; font-size: 10px; color: #1a1a18; cursor: pointer; margin-top: 5px; }
+  .race-bar { height: 4px; background: #f5f3ee; border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+  .race-fill { height: 100%; background: #185FA5; border-radius: 2px; }
+
+  /* Player rows */
+  .player-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid #e8e5de; }
+  .pl-av { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; flex-shrink: 0; }
+  .pl-name { font-size: 11px; font-weight: 500; color: #1a1a18; }
+  .pl-rate { font-size: 8px; color: #888780; }
+  .pl-rec { font-size: 9px; font-weight: 500; color: #1D9E75; margin-left: auto; flex-shrink: 0; }
+
+  /* Standings */
+  .st-hdr { display: grid; grid-template-columns: 16px 1fr 18px 18px 18px 24px; gap: 3px; padding: 4px 0; font-size: 8px; color: #b4b2a9; border-bottom: 0.5px solid #e8e5de; margin-bottom: 3px; }
+  .st-row { display: grid; grid-template-columns: 16px 1fr 18px 18px 18px 24px; gap: 3px; padding: 5px 0; font-size: 9px; color: #1a1a18; align-items: center; border-bottom: 0.5px solid #e8e5de; }
+  .st-row.me { background: #EBF4FD; border-radius: 6px; padding: 5px 4px; color: #185FA5; }
+  .rn { font-size: 9px; color: #888780; }
+  .pts { font-weight: 500; color: #185FA5; }
+</style>
+</head>
+<body>
+
+<h1>Rack &amp; Roll — wireframes</h1>
+<p class="subtitle">4 key screens · Mobile-first · Linked to user stories</p>
+
+<div class="screens-grid">
+
+  <!-- Screen 1: Dashboard -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="notch"><span>9:41</span><span>●●●</span></div>
+      <div class="navbar">
+        <div class="navbar-title">Dashboard</div>
+        <div class="avatar-sm">JD</div>
+      </div>
+      <div class="body">
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-val">34</div><div class="stat-lbl">Wins</div></div>
+          <div class="stat-card"><div class="stat-val">12</div><div class="stat-lbl">Losses</div></div>
+          <div class="stat-card"><div class="stat-val green">74%</div><div class="stat-lbl">Win rate</div></div>
+        </div>
+        <div class="sec">Rating trend</div>
+        <div class="chart-stub">
+          <div class="bar" style="height:28%;background:#B5D4F4"></div>
+          <div class="bar" style="height:42%;background:#85B7EB"></div>
+          <div class="bar" style="height:55%;background:#378ADD"></div>
+          <div class="bar" style="height:62%;background:#185FA5"></div>
+          <div class="bar" style="height:75%;background:#185FA5"></div>
+          <div class="bar" style="height:88%;background:#0C447C"></div>
+        </div>
+        <div class="sec">Upcoming matches</div>
+        <div class="upcoming">
+          <div><div class="uname">vs. Marcus T.</div><div class="umeta">Fri 6:30pm · Billiards Den</div></div>
+          <span class="badge">8-ball</span>
+        </div>
+        <div class="upcoming">
+          <div><div class="uname">vs. Priya N.</div><div class="umeta">Sat 2:00pm · Corner Pocket</div></div>
+          <span class="badge">9-ball</span>
+        </div>
+        <div class="pbtn">+ Log a match</div>
+      </div>
+      <div class="tabbar">
+        <div class="tab on"><span class="tab-icon">⌂</span>Home</div>
+        <div class="tab"><span class="tab-icon">🎱</span>Play</div>
+        <div class="tab"><span class="tab-icon">📅</span>Schedule</div>
+        <div class="tab"><span class="tab-icon">📊</span>Stats</div>
+      </div>
+    </div>
+    <div class="screen-label">Dashboard</div>
+    <div class="screen-story">US-011 · US-008</div>
+  </div>
+
+  <!-- Screen 2: Log Match -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="notch"><span>9:41</span><span>●●●</span></div>
+      <div class="navbar">
+        <div class="navbar-title">Log match</div>
+        <div class="navbar-action">Cancel</div>
+      </div>
+      <div class="body">
+        <div class="sec">Game type</div>
+        <div class="seg">
+          <div class="seg-opt on">8-ball</div>
+          <div class="seg-opt">9-ball</div>
+          <div class="seg-opt">10-ball</div>
+          <div class="seg-opt">Straight</div>
+        </div>
+        <div class="sec">Opponent</div>
+        <div class="inp">Search players…</div>
+        <div class="sec">Format</div>
+        <div class="row">
+          <div class="inp" style="flex:2">Race to</div>
+          <div class="inp active" style="flex:1;text-align:center;font-weight:500">7</div>
+        </div>
+        <div class="divider"></div>
+        <div class="sec">Live scoring</div>
+        <div class="live-score">
+          <div class="ls-card">
+            <div class="ls-name">You</div>
+            <div class="ls-num">4</div>
+            <div class="ls-btn">+ Rack</div>
+          </div>
+          <div class="ls-card">
+            <div class="ls-name">Marcus</div>
+            <div class="ls-num">3</div>
+            <div class="ls-btn">+ Rack</div>
+          </div>
+        </div>
+        <div class="sec">Progress (race to 7)</div>
+        <div class="race-bar"><div class="race-fill" style="width:57%"></div></div>
+        <div class="inp">Venue (optional)…</div>
+        <div class="pbtn">Confirm result</div>
+      </div>
+      <div class="tabbar">
+        <div class="tab"><span class="tab-icon">⌂</span>Home</div>
+        <div class="tab on"><span class="tab-icon">🎱</span>Play</div>
+        <div class="tab"><span class="tab-icon">📅</span>Schedule</div>
+        <div class="tab"><span class="tab-icon">📊</span>Stats</div>
+      </div>
+    </div>
+    <div class="screen-label">Log match</div>
+    <div class="screen-story">US-004 · US-005 · US-006</div>
+  </div>
+
+  <!-- Screen 3: Schedule Challenge -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="notch"><span>9:41</span><span>●●●</span></div>
+      <div class="navbar">
+        <div class="navbar-title">Challenge</div>
+        <div class="navbar-action">Cancel</div>
+      </div>
+      <div class="body">
+        <div class="sec">Choose opponent</div>
+        <div class="inp">Search players…</div>
+        <div class="player-row">
+          <div class="pl-av" style="background:#E1F5EE;color:#0F6E56">MT</div>
+          <div style="flex:1"><div class="pl-name">Marcus T.</div><div class="pl-rate">Rating 1,204</div></div>
+          <div class="pl-rec">W12 L5</div>
+        </div>
+        <div class="player-row">
+          <div class="pl-av" style="background:#FAEEDA;color:#854F0B">PN</div>
+          <div style="flex:1"><div class="pl-name">Priya N.</div><div class="pl-rate">Rating 1,180</div></div>
+          <div class="pl-rec">W9 L8</div>
+        </div>
+        <div class="divider"></div>
+        <div class="sec">Date &amp; time</div>
+        <div class="row">
+          <div class="inp active">Fri Apr 18</div>
+          <div class="inp active">6:30 PM</div>
+        </div>
+        <div class="sec">Venue</div>
+        <div class="inp active">Billiards Den, Swansboro</div>
+        <div class="sec">Game type</div>
+        <div class="seg" style="margin-bottom:6px">
+          <div class="seg-opt on">8-ball</div>
+          <div class="seg-opt">9-ball</div>
+          <div class="seg-opt">10-ball</div>
+          <div class="seg-opt">Straight</div>
+        </div>
+        <div class="pbtn">Send challenge</div>
+      </div>
+      <div class="tabbar">
+        <div class="tab"><span class="tab-icon">⌂</span>Home</div>
+        <div class="tab"><span class="tab-icon">🎱</span>Play</div>
+        <div class="tab on"><span class="tab-icon">📅</span>Schedule</div>
+        <div class="tab"><span class="tab-icon">📊</span>Stats</div>
+      </div>
+    </div>
+    <div class="screen-label">Schedule challenge</div>
+    <div class="screen-story">US-007 · US-016</div>
+  </div>
+
+  <!-- Screen 4: League Standings -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="notch"><span>9:41</span><span>●●●</span></div>
+      <div class="navbar">
+        <div class="navbar-title">Spring 8-ball</div>
+        <span class="badge badge-live">Live</span>
+      </div>
+      <div class="body">
+        <div style="font-size:9px;color:#888780;margin-bottom:8px">Round-robin · 6 players · Week 3 of 5</div>
+        <div class="st-hdr">
+          <span>#</span><span>Player</span><span>P</span><span>W</span><span>L</span><span>Pts</span>
+        </div>
+        <div class="st-row">
+          <span class="rn">1</span><span style="font-size:9px;font-weight:500">Marcus T.</span>
+          <span>8</span><span>7</span><span>1</span><span class="pts">14</span>
+        </div>
+        <div class="st-row me">
+          <span class="rn" style="color:#185FA5">2</span><span style="font-size:9px;font-weight:500">You</span>
+          <span>8</span><span>6</span><span>2</span><span class="pts">12</span>
+        </div>
+        <div class="st-row">
+          <span class="rn">3</span><span style="font-size:9px">Priya N.</span>
+          <span>8</span><span>5</span><span>3</span><span>10</span>
+        </div>
+        <div class="st-row">
+          <span class="rn">4</span><span style="font-size:9px">Sam W.</span>
+          <span>7</span><span>3</span><span>4</span><span>6</span>
+        </div>
+        <div class="st-row">
+          <span class="rn">5</span><span style="font-size:9px">Lee K.</span>
+          <span>7</span><span>2</span><span>5</span><span>4</span>
+        </div>
+        <div class="st-row">
+          <span class="rn">6</span><span style="font-size:9px">Dana R.</span>
+          <span>6</span><span>1</span><span>5</span><span>2</span>
+        </div>
+        <div class="divider"></div>
+        <div class="sec">My next match</div>
+        <div class="upcoming">
+          <div><div class="uname">vs. Sam W.</div><div class="umeta">Sun 3:00pm · Corner Pocket</div></div>
+          <span class="badge">8-ball</span>
+        </div>
+        <div class="pbtn">Enter result</div>
+      </div>
+      <div class="tabbar">
+        <div class="tab"><span class="tab-icon">⌂</span>Home</div>
+        <div class="tab"><span class="tab-icon">🎱</span>Play</div>
+        <div class="tab"><span class="tab-icon">📅</span>Schedule</div>
+        <div class="tab on"><span class="tab-icon">📊</span>Stats</div>
+      </div>
+    </div>
+    <div class="screen-label">League standings</div>
+    <div class="screen-story">US-014 · US-015</div>
+  </div>
+
+</div>
+
+</body>
+</html>
