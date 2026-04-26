@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { GameType } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -22,7 +23,7 @@ export class UsersService {
     });
   }
 
-  updateProfile(id: string, data: { avatarUrl?: string; homeVenue?: string; preferredGames?: string[] }) {
+  updateProfile(id: string, data: { avatarUrl?: string; homeVenue?: string; preferredGames?: GameType[] }) {
     return this.prisma.user.update({ where: { id }, data });
   }
 

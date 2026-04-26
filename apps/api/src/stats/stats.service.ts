@@ -8,7 +8,7 @@ export class StatsService {
 
   async getSummary(userId: string, gameType?: GameType, since?: Date) {
     const where = {
-      OR: [{ homePlayerId: userId }, { awayPlayerId: userId }] as const,
+      OR: [{ homePlayerId: userId }, { awayPlayerId: userId }],
       status: 'COMPLETED' as const,
       ...(gameType ? { gameType } : {}),
       ...(since ? { playedAt: { gte: since } } : {}),

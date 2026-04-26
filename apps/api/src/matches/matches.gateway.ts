@@ -9,7 +9,7 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({ cors: true, namespace: 'matches' })
 export class MatchesGateway {
-  @WebSocketServer() server: Server;
+  @WebSocketServer() server!: Server;
 
   @SubscribeMessage('joinMatch')
   handleJoinMatch(@ConnectedSocket() client: Socket, @MessageBody() matchId: string) {

@@ -1,2 +1,8 @@
-<app-nx-welcome></app-nx-welcome>
+@if (activeMatch()) {
+  <a class="active-match-banner" [href]="'/matches/live/' + activeMatch()!.id">
+    <span class="dot"></span>
+    <span>Active match: {{ activeMatch()!.vs }}</span>
+    <span class="resume">Resume →</span>
+  </a>
+}
 <router-outlet></router-outlet>
