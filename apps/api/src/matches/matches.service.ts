@@ -17,8 +17,8 @@ export class MatchesService {
     return this.prisma.match.create({
       data: {
         homePlayerId,
-        awayPlayerId: options.opponentId ?? null,
-        guestName: options.guestName ?? null,
+        awayPlayerId: options.opponentId ?? undefined,
+        guestName: options.guestName ?? undefined,
         gameType,
         raceToRacks: options.raceToRacks,
         venueId: options.venueId,
