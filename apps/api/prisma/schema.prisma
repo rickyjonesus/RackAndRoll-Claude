@@ -86,7 +86,8 @@ model Venue {
 model Match {
   id           String      @id @default(cuid())
   homePlayerId String
-  awayPlayerId String
+  awayPlayerId String?
+  guestName    String?
   gameType     GameType
   raceToRacks  Int?
   homeScore    Int         @default(0)
@@ -101,7 +102,7 @@ model Match {
   disputedBy   String?
 
   homePlayer User    @relation("HomePlayer", fields: [homePlayerId], references: [id])
-  awayPlayer User    @relation("AwayPlayer", fields: [awayPlayerId], references: [id])
+  awayPlayer User?   @relation("AwayPlayer", fields: [awayPlayerId], references: [id])
   venue      Venue?  @relation(fields: [venueId], references: [id])
   racks      Rack[]
 

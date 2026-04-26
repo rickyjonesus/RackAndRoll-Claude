@@ -158,6 +158,10 @@ export class LiveScoringComponent implements OnInit {
 
   ngOnInit() {
     this.api.get<any>(`matches/${this.id}`).subscribe((m) => {
+      // Normalize guest matches: synthesize an awayPlayer object so the template is uniform
+      if (!m.awayPlayer && m.guestName) {
+        m.awayPlayer = { id: '__guest__', displayName: m.guestName };
+      }
       this.match.set(m);
       this.homeScore.set(m.homeScore ?? 0);
       this.awayScore.set(m.awayScore ?? 0);

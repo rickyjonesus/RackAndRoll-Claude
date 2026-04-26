@@ -1,4 +1,4 @@
-import { Controller, Post, Patch, Get, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Patch, Get, Body, Param, UseGuards, Request, BadRequestException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { MatchesService } from './matches.service';
 import { GameType } from '@prisma/client';
@@ -11,9 +11,27 @@ export class MatchesController {
   @Post()
   create(
     @Request() req: { user: { id: string } },
-    @Body() body: { opponentId: string; gameType: GameType; raceToRacks?: number; venueId?: string },
+    @Body() body: { opponentId?: string; guestName?: string; gameType: GameType; raceToRacks?: number; venueId?: string },
   ) {
-    return this.matches.createMatch(req.user.id, body.opponentId, body.gameType, body.raceToRacks, body.venueId);
+    if (!body.opponentId && !body.guestName) {
+      throw new BadRequestException('Provide either opponentId or guestName');
+    }
+    return this.matches.createMatch(req.user.id, body.gameType, {
+      opponentId: body.opponentId,
+      guestName: body.guestName,
+      raceToRacks: body.raceToRacks,
+      venueId: body.venueId,
+    });
+  }
+
+  @Get('history')
+  history(@Request() req: { user: { id: string } }) {
+    return this.matches.getMatchHistory(req.user.id);
+  }
+
+  @Get(':id')
+  getMatch(@Param('id') id: string) {
+    return this.matches.getMatch(id);
   }
 
   @Post(':id/racks')
@@ -34,10 +52,5 @@ export class MatchesController {
   @Patch(':id/dispute')
   dispute(@Param('id') matchId: string, @Request() req: { user: { id: string } }) {
     return this.matches.disputeMatch(matchId, req.user.id);
-  }
-
-  @Get('history')
-  history(@Request() req: { user: { id: string } }) {
-    return this.matches.getMatchHistory(req.user.id);
   }
 }

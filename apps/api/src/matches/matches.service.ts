@@ -3,14 +3,42 @@ import { PrismaService } from '../prisma/prisma.service';
 import { GameType } from '@prisma/client';
 
 const ELO_K = 32;
+const GUEST_WINNER_ID = '__guest__';
 
 @Injectable()
 export class MatchesService {
   constructor(private prisma: PrismaService) {}
 
-  async createMatch(homePlayerId: string, awayPlayerId: string, gameType: GameType, raceToRacks?: number, venueId?: string) {
+  async createMatch(
+    homePlayerId: string,
+    gameType: GameType,
+    options: { opponentId?: string; guestName?: string; raceToRacks?: number; venueId?: string },
+  ) {
     return this.prisma.match.create({
-      data: { homePlayerId, awayPlayerId, gameType, raceToRacks, venueId, status: 'IN_PROGRESS' },
+      data: {
+        homePlayerId,
+        awayPlayerId: options.opponentId ?? null,
+        guestName: options.guestName ?? null,
+        gameType,
+        raceToRacks: options.raceToRacks,
+        venueId: options.venueId,
+        status: 'IN_PROGRESS',
+      },
+      include: {
+        homePlayer: { select: { id: true, displayName: true, avatarUrl: true } },
+        awayPlayer: { select: { id: true, displayName: true, avatarUrl: true } },
+      },
+    });
+  }
+
+  getMatch(id: string) {
+    return this.prisma.match.findUniqueOrThrow({
+      where: { id },
+      include: {
+        homePlayer: { select: { id: true, displayName: true, avatarUrl: true } },
+        awayPlayer: { select: { id: true, displayName: true, avatarUrl: true } },
+        venue: true,
+      },
     });
   }
 
@@ -32,10 +60,13 @@ export class MatchesService {
     const match = await this.prisma.match.findUniqueOrThrow({ where: { id: matchId } });
 
     const homeScore = racks.filter((r) => r.winnerId === match.homePlayerId).length;
-    const awayScore = racks.filter((r) => r.winnerId === match.awayPlayerId).length;
-    const winnerId = homeScore > awayScore ? match.homePlayerId : match.awayPlayerId;
+    const awayScore = racks.filter((r) => r.winnerId !== match.homePlayerId).length;
+    const homeWon = homeScore >= awayScore;
+    const winnerId = homeWon ? match.homePlayerId : (match.awayPlayerId ?? GUEST_WINNER_ID);
 
-    await this.updateElo(match.homePlayerId, match.awayPlayerId, winnerId, matchId);
+    if (match.awayPlayerId) {
+      await this.updateElo(match.homePlayerId, match.awayPlayerId, winnerId, matchId);
+    }
 
     return this.prisma.match.update({
       where: { id: matchId },
