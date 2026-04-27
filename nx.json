@@ -24,7 +24,6 @@
     { "plugin": "@nx/playwright/plugin", "options": { "targetName": "e2e" } },
     { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } }
   ],
-  "nxCloudId": "69ee4e3db740ddf44517130e",
   "analytics": false,
   "targetDefaults": {
     "@angular/build:application": {
