@@ -1,8 +1,68 @@
-@if (activeMatch()) {
-  <a class="active-match-banner" [href]="'/matches/live/' + activeMatch()!.id">
-    <span class="dot"></span>
-    <span>Active match: {{ activeMatch()!.vs }}</span>
-    <span class="resume">Resume →</span>
-  </a>
+@if (isAuthenticated()) {
+  <div class="app-shell">
+    <nav class="rail">
+      <div class="rail-logo">
+        <div class="rail-logo-mark">🎱</div>
+        <div>
+          <div class="rail-logo-name">RACK&amp;ROLL</div>
+          <div class="rail-logo-sub">Casual league</div>
+        </div>
+      </div>
+
+      <ul class="rail-nav">
+        <li>
+          <a routerLink="/dashboard" routerLinkActive="active">
+            <span class="nav-icon">⬡</span> Home
+          </a>
+        </li>
+        <li>
+          <a routerLink="/matches" routerLinkActive="active">
+            <span class="nav-icon">◎</span> Matches
+          </a>
+        </li>
+        @if (activeMatch()) {
+          <li>
+            <a [routerLink]="'/matches/live/' + activeMatch()!.id" routerLinkActive="active" class="live-link">
+              <span class="blink-dot"></span> Live
+            </a>
+          </li>
+        }
+        <li>
+          <a routerLink="/leagues" routerLinkActive="active">
+            <span class="nav-icon">◈</span> Leagues
+          </a>
+        </li>
+        <li>
+          <a routerLink="/stats" routerLinkActive="active">
+            <span class="nav-icon">◇</span> Stats
+          </a>
+        </li>
+        <li>
+          <a routerLink="/schedule" routerLinkActive="active">
+            <span class="nav-icon">◻</span> Schedule
+          </a>
+        </li>
+      </ul>
+
+      <a routerLink="/matches/new" class="rail-cta">+ New game</a>
+
+      <a routerLink="/profile" class="rail-profile" routerLinkActive="active">
+        <div class="rail-avatar">U</div>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+    <div class="rail-content">
+      @if (activeMatch()) {
+        <a class="active-match-banner" [href]="'/matches/live/' + activeMatch()!.id">
+          <span class="dot"></span>
+          <span>Active match: {{ activeMatch()!.vs }}</span>
+          <span class="resume">Resume →</span>
+        </a>
+      }
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+} @else {
+  <router-outlet></router-outlet>
 }
-<router-outlet></router-outlet>

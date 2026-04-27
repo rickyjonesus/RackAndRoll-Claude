@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ActiveMatchService } from './core/services/active-match.service';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   imports: [RouterModule],
@@ -11,4 +12,5 @@ import { ActiveMatchService } from './core/services/active-match.service';
 export class App {
   protected title = 'web';
   protected activeMatch = inject(ActiveMatchService).current;
+  protected isAuthenticated = inject(AuthService).isAuthenticated;
 }

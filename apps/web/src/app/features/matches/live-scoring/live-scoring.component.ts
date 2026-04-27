@@ -9,10 +9,23 @@ import { ActiveMatchService } from '../../../core/services/active-match.service'
   standalone: true,
   imports: [CommonModule],
   styles: [`
+    :host {
+      display: block;
+      background: #0b0d10;
+      min-height: 100%;
+    }
     .scoring-layout {
       max-width: 600px;
-      margin: 1.5rem auto;
-      padding: 0 1rem;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+    h2 {
+      color: #fff;
+      font-family: 'Boldonse', sans-serif;
+      font-weight: 400;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
     }
     .scoreboard {
       display: grid;
@@ -25,73 +38,86 @@ import { ActiveMatchService } from '../../../core/services/active-match.service'
       flex-direction: column;
       align-items: center;
       gap: 0.75rem;
-      background: var(--color-surface);
-      border-radius: var(--radius);
-      padding: 1.25rem 1rem;
+      background: #161920;
+      border-radius: 16px;
+      padding: 1.5rem 1rem;
+      border: 1px solid rgba(255,255,255,0.06);
     }
     .player-name {
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.9rem;
       text-align: center;
-      color: var(--color-text-muted);
+      color: rgba(255,255,255,0.45);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }
     .score-display {
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: var(--color-primary);
+      font-family: 'Boldonse', sans-serif;
+      font-weight: 400;
+      font-size: 5rem;
+      color: #00e5ff;
       line-height: 1;
+      letter-spacing: -0.03em;
       transition: color 0.15s;
     }
     .score-display.popped {
       animation: rack-pop 0.4s ease-out;
     }
     @keyframes rack-pop {
-      0%   { transform: scale(1);    color: var(--color-primary); }
-      40%  { transform: scale(1.35); color: #fff; }
-      100% { transform: scale(1);    color: var(--color-primary); }
+      0%   { transform: scale(1);    color: #00e5ff; }
+      40%  { transform: scale(1.3);  color: #fff; }
+      100% { transform: scale(1);    color: #00e5ff; }
     }
     .rack-btn {
       width: 100%;
-      min-height: 80px;
-      font-size: 1.6rem;
+      min-height: 88px;
+      font-size: 1.5rem;
       font-weight: 800;
-      border-radius: var(--radius);
-      background: var(--color-primary);
-      color: #000;
+      border-radius: 12px;
+      background: #00e5ff;
+      color: #0b0d10;
       border: none;
       cursor: pointer;
       transition: background 0.15s, transform 0.1s;
       touch-action: manipulation;
+      box-shadow: 0 4px 0 #00b0cc;
     }
-    .rack-btn:active { transform: scale(0.96); background: var(--color-primary-dark); }
+    .rack-btn:hover { background: #00cfea; }
+    .rack-btn:active { transform: translateY(3px); box-shadow: none; }
     .match-actions {
       display: flex;
       gap: 0.75rem;
       flex-wrap: wrap;
     }
     .btn-secondary {
-      background: var(--color-surface-2);
-      color: var(--color-text);
-      border: 1px solid var(--color-border);
+      background: #1e2229;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: none;
     }
-    .btn-secondary:hover { background: var(--color-surface); }
-    .btn-danger { background: var(--color-accent); color: #fff; }
+    .btn-secondary:hover { background: #252b34; color: #fff; }
+    .btn-danger {
+      background: #ff5722;
+      color: #fff;
+      box-shadow: 0 3px 0 #c43e16;
+    }
     .btn-danger:hover { background: #e64a19; }
+    .btn-danger:active { transform: translateY(2px); box-shadow: none; }
     .undo-dialog {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
+      background: #161920;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
       padding: 1.25rem;
       margin-bottom: 1rem;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
     }
-    .undo-dialog p { margin: 0; font-size: 1rem; }
+    .undo-dialog p { margin: 0; font-size: 1rem; color: rgba(255,255,255,0.8); }
     .undo-dialog .actions { display: flex; gap: 0.75rem; }
   `],
   template: `
