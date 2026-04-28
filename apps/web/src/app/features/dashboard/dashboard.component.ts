@@ -40,6 +40,7 @@ interface Summary { played: number; wins: number; losses: number; winPct: number
     .card.card-green .label { color: rgba(244,237,224,0.65); }
     .card.card-dark { background: var(--felt-ink); color: #f4ede0; }
     .card.card-dark .label { color: rgba(244,237,224,0.55); }
+    .card.card-dark .value { color: #f4ede0; }
 
     .section-label {
       font-size: 0.72rem;
