@@ -2,7 +2,18 @@ packages:
   - packages/*
   - apps/*
   - libs/*
-
+allowBuilds:
+  - '@nestjs/core'
+  - '@parcel/watcher'
+  - '@prisma/engines'
+  - '@scarf/scarf'
+  - '@swc/core'
+  - esbuild
+  - less
+  - lmdb
+  - msgpackr-extract
+  - prisma
+  - unrs-resolver
 onlyBuiltDependencies:
   - '@nestjs/core'
   - '@parcel/watcher'
