@@ -1,5 +1,7 @@
 services:
+  # Local Postgres — only started with: docker compose --profile local up
   db:
+    profiles: [local]
     image: postgres:17-alpine
     environment:
       POSTGRES_DB: rackandroll
@@ -20,24 +22,41 @@ services:
       context: .
       dockerfile: apps/api/Dockerfile
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/rackandroll
-      JWT_SECRET: change-me-in-production
+      DATABASE_URL: ${DATABASE_URL}
+      DIRECT_URL: ${DIRECT_URL}
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
       PORT: 3000
-      WEB_ORIGIN: http://localhost
+      WEB_ORIGIN: https://${DOMAIN}
     ports:
       - "3000:3000"
-    depends_on:
-      db:
-        condition: service_healthy
 
   web:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+    environment:
+      DOMAIN: ${DOMAIN}
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - letsencrypt:/etc/letsencrypt:ro
+      - certbot-webroot:/var/www/certbot:ro
     depends_on:
       - api
 
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot-webroot:/var/www/certbot
+    # Initial cert: docker compose run --rm certbot certonly --webroot -w /var/www/certbot -d $DOMAIN --email you@example.com --agree-tos
+    # Renewal runs automatically every 12 hours
+    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --quiet; sleep 12h & wait $${!}; done"
+    depends_on:
+      - web
+
 volumes:
   pgdata:
+  letsencrypt:
+  certbot-webroot:

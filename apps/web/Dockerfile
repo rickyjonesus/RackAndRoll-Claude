@@ -18,8 +18,10 @@ RUN pnpm nx build web --configuration=production
 FROM nginx:alpine AS production
 
 COPY --from=builder /app/dist/apps/web/browser /usr/share/nginx/html
-COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+# Use the templates dir so nginx docker entrypoint runs envsubst for ${DOMAIN}
+COPY apps/web/nginx.conf /etc/nginx/templates/default.conf.template
+
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -9,5 +9,9 @@ export const authRoutes: Routes = [
     path: 'register',
     loadComponent: () => import('./register/register.component').then((m) => m.RegisterComponent),
   },
+  {
+    path: 'callback',
+    loadComponent: () => import('./oauth-callback/oauth-callback.component').then((m) => m.OAuthCallbackComponent),
+  },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];

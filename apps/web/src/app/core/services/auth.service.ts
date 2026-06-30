@@ -40,6 +40,10 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
+  handleOAuthToken(token: string) {
+    this.setSession(token);
+  }
+
   private setSession(token: string) {
     localStorage.setItem('token', token);
     this.state.update((s) => ({ ...s, token }));

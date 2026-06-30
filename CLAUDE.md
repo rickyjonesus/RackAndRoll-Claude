@@ -1,23 +1,45 @@
-<!-- nx configuration start-->
-<!-- Leave the start & end comments to automatically receive updates. -->
+# RackAndRoll — Dev Guidelines
 
-# General Guidelines for working with Nx
+## Structure
 
-- For navigating/exploring the workspace, invoke the `nx-workspace` skill first - it has patterns for querying projects, targets, and dependencies
-- When running tasks (for example build, lint, test, e2e, etc.), always prefer running the task through `nx` (i.e. `nx run`, `nx run-many`, `nx affected`) instead of using the underlying tooling directly
-- Prefix nx commands with the workspace's package manager (e.g., `pnpm nx build`, `npm exec nx test`) - avoids using globally installed CLI
-- You have access to the Nx MCP server and its tools, use them to help the user
-- For Nx plugin best practices, check `node_modules/@nx/<plugin>/PLUGIN.md`. Not all plugins have this file - proceed without it if unavailable.
-- NEVER guess CLI flags - always check nx_docs or `--help` first when unsure
+- `apps/api` — NestJS backend
+- `apps/web` — Angular frontend
+- `apps/api-e2e` — API integration tests (Jest)
+- `apps/web-e2e` — E2E tests (Playwright)
+- `libs/shared` — shared types/utilities
 
-## Scaffolding & Generators
+## Common Commands
 
-- For scaffolding tasks (creating apps, libs, project structure, setup), ALWAYS invoke the `nx-generate` skill FIRST before exploring or calling MCP tools
+```bash
+# Dev servers
+pnpm dev:api    # NestJS with SWC hot-reload
+pnpm dev:web    # Angular dev server
 
-## When to use nx_docs
+# Build
+pnpm build:api  # webpack → dist/apps/api/main.js
+pnpm build:web  # Angular CLI → dist/apps/web
 
-- USE for: advanced config options, unfamiliar flags, migration guides, plugin configuration, edge cases
-- DON'T USE for: basic generator syntax (`nx g @nx/react:app`), standard commands, things you already know
-- The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
+# Database (runs from apps/api where prisma.config.ts lives)
+pnpm db:push     # push schema to Supabase
+pnpm db:migrate  # run pending migrations
+pnpm db:generate # regenerate Prisma client
+pnpm db:studio   # open Prisma Studio
 
-<!-- nx configuration end-->
+# Test & lint
+pnpm test        # jest (api) + ng test (web)
+pnpm lint        # eslint (api) + ng lint (web)
+```
+
+## Docker
+
+```bash
+# Supabase as DB (default)
+docker compose up
+
+# Local Postgres
+docker compose --profile local up
+```
+
+## API build
+
+webpack bundles all node_modules into `dist/apps/api/main.js` — no `npm install` needed in the production image. Prisma uses `@prisma/adapter-pg` (no native binary), so bundling is safe.

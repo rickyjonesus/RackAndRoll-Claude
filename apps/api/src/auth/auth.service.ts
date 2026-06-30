@@ -3,6 +3,14 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 
+interface OAuthUserParams {
+  provider: 'google' | 'apple';
+  providerId: string;
+  email: string;
+  displayName?: string;
+  avatarUrl?: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -34,6 +42,37 @@ export class AuthService {
 
   login(userId: string, email: string) {
     return this.signToken(userId, email);
+  }
+
+  async findOrCreateOAuthUser({ provider, providerId, email, displayName, avatarUrl }: OAuthUserParams) {
+    const isGoogle = provider === 'google';
+
+    let user = isGoogle
+      ? await this.prisma.user.findUnique({ where: { googleId: providerId } })
+      : await this.prisma.user.findUnique({ where: { appleId: providerId } });
+
+    if (!user && email) {
+      user = await this.prisma.user.findUnique({ where: { email } });
+      if (user) {
+        user = isGoogle
+          ? await this.prisma.user.update({ where: { id: user.id }, data: { googleId: providerId } })
+          : await this.prisma.user.update({ where: { id: user.id }, data: { appleId: providerId } });
+      }
+    }
+
+    if (!user) {
+      const base = displayName || email.split('@')[0] || 'user';
+      let uniqueName = base;
+      let suffix = 1;
+      while (await this.prisma.user.findUnique({ where: { displayName: uniqueName } })) {
+        uniqueName = `${base}${suffix++}`;
+      }
+      user = isGoogle
+        ? await this.prisma.user.create({ data: { email, googleId: providerId, displayName: uniqueName, avatarUrl } })
+        : await this.prisma.user.create({ data: { email, appleId: providerId, displayName: uniqueName, avatarUrl } });
+    }
+
+    return this.signToken(user.id, user.email);
   }
 
   private signToken(userId: string, email: string) {

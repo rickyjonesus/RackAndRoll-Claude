@@ -5,6 +5,7 @@ import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.getHttpAdapter().getInstance().set('trust proxy', 1); // trust X-Forwarded-* from nginx
   app.setGlobalPrefix('api');
   app.enableCors({ origin: process.env['WEB_ORIGIN'] || 'http://localhost:4200' });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
