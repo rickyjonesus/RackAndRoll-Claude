@@ -2,7 +2,6 @@ import { Controller, Post, Patch, Get, Body, Param, UseGuards, Request, BadReque
 import { ApiTags, ApiOperation, ApiBody, ApiBearerAuth, ApiParam, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { MatchesService } from './matches.service';
-import { GameType } from '@prisma/client';
 import { AddRackDto, CreateMatchDto } from './dto/matches.dto';
 
 @ApiTags('matches')

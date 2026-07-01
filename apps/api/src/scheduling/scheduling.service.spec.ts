@@ -1,8 +1,9 @@
 import { SchedulingService } from './scheduling.service';
 import { prismaMock } from '../prisma/prisma.mock';
 import { Cadence, GameType } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
-const makeService = () => new SchedulingService(prismaMock as any);
+const makeService = () => new SchedulingService(prismaMock as unknown as PrismaService);
 
 const CHALLENGER_ID = 'user-1';
 const CHALLENGED_ID = 'user-2';
