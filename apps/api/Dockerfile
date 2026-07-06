@@ -15,7 +15,7 @@ RUN pnpm install --frozen-lockfile
 # Generate Prisma client for the target platform before bundling
 RUN pnpm exec prisma generate --schema apps/api/prisma/schema.prisma
 
-RUN cd apps/api && pnpm exec webpack-cli build --node-env=production
+RUN pnpm run build:api
 
 # ---- Production ----
 FROM node:24-alpine AS production
