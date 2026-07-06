@@ -142,7 +142,7 @@ import { AuthService } from '../../../core/services/auth.service';
                 <div class="match-entry-top">
                   <div style="flex:1">
                     <div class="match-vs">
-                      {{ match.homePlayer.displayName }} vs {{ match.awayPlayer?.displayName ?? 'Guest' }}
+                      {{ match.homePlayer.displayName }} vs {{ match.awayPlayer.displayName }}
                     </div>
                     <div class="match-meta">{{ match.gameType }}</div>
                   </div>

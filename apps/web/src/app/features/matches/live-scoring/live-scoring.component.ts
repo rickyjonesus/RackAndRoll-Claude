@@ -6,6 +6,7 @@ import { ActiveMatchService } from '../../../core/services/active-match.service'
 
 interface LiveMatchPlayer { id: string; displayName: string; }
 interface LiveMatch {
+  id: string;
   homePlayer: LiveMatchPlayer;
   awayPlayer: LiveMatchPlayer;
   guestName?: string;
@@ -133,21 +134,21 @@ interface LiveMatch {
     <div class="scoring-layout">
       <h2>Live Scoring</h2>
 
-      @if (match()) {
+      @if (match(); as m) {
         <div class="scoreboard">
           <div class="player-col">
-            <div class="player-name">{{ match().homePlayer.displayName }}</div>
-            <div class="score-display" [class.popped]="poppedId() === match().homePlayer.id">
+            <div class="player-name">{{ m.homePlayer.displayName }}</div>
+            <div class="score-display" [class.popped]="poppedId() === m.homePlayer.id">
               {{ homeScore() }}
             </div>
-            <button class="rack-btn" (click)="addRack(match().homePlayer.id)">+Rack</button>
+            <button class="rack-btn" (click)="addRack(m.homePlayer.id)">+Rack</button>
           </div>
           <div class="player-col">
-            <div class="player-name">{{ match().awayPlayer.displayName }}</div>
-            <div class="score-display" [class.popped]="poppedId() === match().awayPlayer.id">
+            <div class="player-name">{{ m.awayPlayer.displayName }}</div>
+            <div class="score-display" [class.popped]="poppedId() === m.awayPlayer.id">
               {{ awayScore() }}
             </div>
-            <button class="rack-btn" (click)="addRack(match().awayPlayer.id)">+Rack</button>
+            <button class="rack-btn" (click)="addRack(m.awayPlayer.id)">+Rack</button>
           </div>
         </div>
 
@@ -209,6 +210,7 @@ export class LiveScoringComponent implements OnInit {
 
   addRack(winnerId: string) {
     const m = this.match();
+    if (!m) return;
     const rackNum = this.homeScore() + this.awayScore() + 1;
     this.api.post(`matches/${this.id}/racks`, { winnerId, rackNum }).subscribe(() => {
       if (winnerId === m.homePlayer.id) this.homeScore.update((n) => n + 1);
@@ -232,6 +234,7 @@ export class LiveScoringComponent implements OnInit {
     const lastWinnerId = this.lastRackWinnerId();
     this.api.patch(`matches/${this.id}/racks/undo`, {}).subscribe(() => {
       const m = this.match();
+      if (!m) return;
       if (lastWinnerId === m.homePlayer.id) this.homeScore.update((n) => Math.max(0, n - 1));
       else this.awayScore.update((n) => Math.max(0, n - 1));
       this.lastRackWinnerId.set(null);

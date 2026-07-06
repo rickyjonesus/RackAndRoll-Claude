@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/services/auth.service';
 
-interface UserProfile { displayName: string; homeVenue: string | null; }
+interface UserProfile { displayName: string; email: string; homeVenue: string | null; }
 
 @Component({
   selector: 'app-profile',
