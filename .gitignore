@@ -53,3 +53,7 @@ Thumbs.db
 .angular
 
 __screenshots__/
+
+
+
+.nx/migrate-runs
