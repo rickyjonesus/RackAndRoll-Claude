@@ -31,6 +31,13 @@ jobs:
 
       - run: pnpm install
 
+      - name: Generate Prisma client
+        run: pnpm exec prisma generate --schema apps/api/prisma/schema.prisma
+        env:
+          # prisma generate doesn't connect to a DB, but prisma.config.ts requires this to be set
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+          DIRECT_URL: postgresql://user:pass@localhost:5432/db
+
       - run: pnpm lint
 
       - run: pnpm test
