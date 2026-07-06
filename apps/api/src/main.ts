@@ -10,6 +10,7 @@ async function bootstrap() {
   app.enableCors({ origin: process.env['WEB_ORIGIN'] || 'http://localhost:4200' });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
+  //Build out swagger documents
   const swaggerConfig = new DocumentBuilder()
     .setTitle('RackAndRoll API')
     .setDescription('Pool tournament tracking — matches, scheduling, stats, and leagues')
