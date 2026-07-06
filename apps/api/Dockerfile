@@ -1,5 +1,5 @@
 # ---- Builder ----
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 RUN corepack enable && corepack prepare pnpm@10.26.2 --activate
 
@@ -18,7 +18,7 @@ RUN pnpm exec prisma generate --schema apps/api/prisma/schema.prisma
 RUN cd apps/api && pnpm exec webpack-cli build --node-env=production
 
 # ---- Production ----
-FROM node:22-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /app
 

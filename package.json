@@ -19,6 +19,9 @@
     "lint": "pnpm lint:api && pnpm lint:web"
   },
   "private": true,
+  "engines": {
+    "node": ">=24 <25"
+  },
   "devDependencies": {
     "@angular-devkit/core": "~21.2.0",
     "@angular-devkit/schematics": "~21.2.0",
@@ -37,7 +40,7 @@
     "@swc/helpers": "0.5.18",
     "@types/bcryptjs": "^2.4.6",
     "@types/jest": "^30.0.0",
-    "@types/node": "^20.19.9",
+    "@types/node": "^24.9.0",
     "@types/passport-apple": "^2.0.3",
     "@types/passport-google-oauth20": "^2.0.17",
     "@types/passport-jwt": "^4.0.1",
