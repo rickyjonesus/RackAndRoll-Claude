@@ -1,8 +1,9 @@
 import { MatchesService } from './matches.service';
 import { prismaMock } from '../prisma/prisma.mock';
+import type { PrismaService } from '../prisma/prisma.service';
 import { GameType } from '@prisma/client';
 
-const makeService = () => new MatchesService(prismaMock as any);
+const makeService = () => new MatchesService(prismaMock as unknown as PrismaService);
 
 const HOME_ID = 'home-user';
 const AWAY_ID = 'away-user';

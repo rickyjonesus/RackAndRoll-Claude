@@ -4,6 +4,15 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
 import { ActiveMatchService } from '../../../core/services/active-match.service';
 
+interface LiveMatchPlayer { id: string; displayName: string; }
+interface LiveMatch {
+  homePlayer: LiveMatchPlayer;
+  awayPlayer: LiveMatchPlayer;
+  guestName?: string;
+  homeScore: number;
+  awayScore: number;
+}
+
 @Component({
   selector: 'app-live-scoring',
   standalone: true,
@@ -168,7 +177,7 @@ export class LiveScoringComponent implements OnInit {
   private router = inject(Router);
   private activeMatch = inject(ActiveMatchService);
 
-  match = signal<any>(null);
+  match = signal<LiveMatch | null>(null);
   homeScore = signal(0);
   awayScore = signal(0);
   poppedId = signal<string | null>(null);
@@ -183,7 +192,7 @@ export class LiveScoringComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.api.get<any>(`matches/${this.id}`).subscribe((m) => {
+    this.api.get<LiveMatch>(`matches/${this.id}`).subscribe((m) => {
       // Normalize guest matches: synthesize an awayPlayer object so the template is uniform
       if (!m.awayPlayer && m.guestName) {
         m.awayPlayer = { id: '__guest__', displayName: m.guestName };

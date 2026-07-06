@@ -1,7 +1,15 @@
+import { GameType, LeagueStatus } from '@rackandroll/shared';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
+
+interface League {
+  id: string;
+  name: string;
+  gameType: GameType;
+  status: LeagueStatus;
+}
 
 @Component({
   selector: 'app-league-list',
@@ -101,6 +109,6 @@ import { ApiService } from '../../../core/services/api.service';
 })
 export class LeagueListComponent implements OnInit {
   private api = inject(ApiService);
-  leagues = signal<any[]>([]);
-  ngOnInit() { this.api.get<any[]>('leagues').subscribe((l) => this.leagues.set(l)); }
+  leagues = signal<League[]>([]);
+  ngOnInit() { this.api.get<League[]>('leagues').subscribe((l) => this.leagues.set(l)); }
 }

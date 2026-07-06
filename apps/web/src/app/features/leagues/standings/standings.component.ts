@@ -1,3 +1,4 @@
+import { LeagueMemberStanding } from '@rackandroll/shared';
 import { Component, inject, OnInit, signal, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../core/services/api.service';
@@ -88,6 +89,6 @@ import { ApiService } from '../../../core/services/api.service';
 export class StandingsComponent implements OnInit {
   @Input() id!: string;
   private api = inject(ApiService);
-  standings = signal<any[]>([]);
-  ngOnInit() { this.api.get<any[]>(`leagues/${this.id}/standings`).subscribe((s) => this.standings.set(s)); }
+  standings = signal<LeagueMemberStanding[]>([]);
+  ngOnInit() { this.api.get<LeagueMemberStanding[]>(`leagues/${this.id}/standings`).subscribe((s) => this.standings.set(s)); }
 }

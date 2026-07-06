@@ -1,7 +1,8 @@
 import { UsersService } from './users.service';
 import { prismaMock } from '../prisma/prisma.mock';
+import type { PrismaService } from '../prisma/prisma.service';
 
-const makeService = () => new UsersService(prismaMock as any);
+const makeService = () => new UsersService(prismaMock as unknown as PrismaService);
 
 describe('UsersService', () => {
   beforeEach(() => jest.clearAllMocks());

@@ -37,7 +37,7 @@ export class CreateLeagueComponent {
   });
 
   submit() {
-    this.api.post<any>('leagues', this.form.getRawValue()).subscribe((l) => {
+    this.api.post<{ id: string }>('leagues', this.form.getRawValue()).subscribe((l) => {
       this.router.navigate(['/leagues', l.id, 'standings']);
     });
   }

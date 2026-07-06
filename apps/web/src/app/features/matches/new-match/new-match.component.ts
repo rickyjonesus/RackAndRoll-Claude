@@ -182,7 +182,7 @@ export class NewMatchComponent implements OnInit {
       ? { guestName: value.guestName || 'Guest', gameType: value.gameType, raceToRacks: value.raceToRacks }
       : { opponentId: value.opponentId, gameType: value.gameType, raceToRacks: value.raceToRacks };
 
-    this.api.post<any>('matches', payload).subscribe((m) => {
+    this.api.post<{ id: string }>('matches', payload).subscribe((m) => {
       this.router.navigate(['/matches/live', m.id]);
     });
   }

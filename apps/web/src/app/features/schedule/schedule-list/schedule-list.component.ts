@@ -1,3 +1,4 @@
+import { Challenge } from '@rackandroll/shared';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -96,6 +97,6 @@ import { ApiService } from '../../../core/services/api.service';
 })
 export class ScheduleListComponent implements OnInit {
   private api = inject(ApiService);
-  challenges = signal<any[]>([]);
-  ngOnInit() { this.api.get<any[]>('scheduling/upcoming').subscribe((c) => this.challenges.set(c)); }
+  challenges = signal<Challenge[]>([]);
+  ngOnInit() { this.api.get<Challenge[]>('scheduling/upcoming').subscribe((c) => this.challenges.set(c)); }
 }

@@ -1,3 +1,4 @@
+import { MatchSummary } from '@rackandroll/shared';
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -161,24 +162,24 @@ import { AuthService } from '../../../core/services/auth.service';
 export class MatchListComponent implements OnInit {
   private api = inject(ApiService);
   private auth = inject(AuthService);
-  matches = signal<any[]>([]);
+  matches = signal<MatchSummary[]>([]);
 
   wins = computed(() => this.matches().filter(m => this.isWin(m)).length);
   losses = computed(() => this.matches().filter(m => !this.isWin(m)).length);
 
-  ngOnInit() { this.api.get<any[]>('matches/history').subscribe((m) => this.matches.set(m)); }
+  ngOnInit() { this.api.get<MatchSummary[]>('matches/history').subscribe((m) => this.matches.set(m)); }
 
-  private isWin(match: any): boolean {
+  private isWin(match: MatchSummary): boolean {
     return match.homeScore > match.awayScore;
   }
 
-  dotClass(match: any): string {
-    if (!match.finalized) return 'live';
+  dotClass(match: MatchSummary): string {
+    if (match.status !== 'COMPLETED') return 'live';
     return this.isWin(match) ? 'win' : 'loss';
   }
 
-  dotLabel(match: any): string {
-    if (!match.finalized) return '●';
+  dotLabel(match: MatchSummary): string {
+    if (match.status !== 'COMPLETED') return '●';
     return this.isWin(match) ? 'W' : 'L';
   }
 }

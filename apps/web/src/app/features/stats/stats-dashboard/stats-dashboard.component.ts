@@ -1,3 +1,4 @@
+import { StatsSummary } from '@rackandroll/shared';
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { ApiService } from '../../../core/services/api.service';
@@ -134,7 +135,7 @@ import { ApiService } from '../../../core/services/api.service';
 })
 export class StatsDashboardComponent implements OnInit {
   private api = inject(ApiService);
-  summary = signal<any>(null);
+  summary = signal<StatsSummary | null>(null);
 
   formBars = computed<string[]>(() => {
     const s = this.summary();
@@ -147,5 +148,5 @@ export class StatsDashboardComponent implements OnInit {
     return bars.slice(0, 20);
   });
 
-  ngOnInit() { this.api.get<any>('stats/summary').subscribe((s) => this.summary.set(s)); }
+  ngOnInit() { this.api.get<StatsSummary>('stats/summary').subscribe((s) => this.summary.set(s)); }
 }

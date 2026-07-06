@@ -1,6 +1,5 @@
-import type { Config } from 'jest';
-
-const config: Config = {
+/** @type {import('jest').Config} */
+module.exports = {
   displayName: 'api',
   preset: 'ts-jest',
   testEnvironment: 'node',
@@ -11,5 +10,3 @@ const config: Config = {
   collectCoverageFrom: ['**/*.service.ts', '!**/prisma.service.ts'],
   coverageDirectory: '../coverage',
 };
-
-export default config;

@@ -11,7 +11,7 @@
     "db:generate": "cd apps/api && prisma generate",
     "db:push": "cd apps/api && prisma db push",
     "db:studio": "cd apps/api && prisma studio",
-    "test:api": "jest --config apps/api/jest.config.ts",
+    "test:api": "jest --config apps/api/jest.config.js",
     "test:web": "ng test web",
     "test": "pnpm test:api && pnpm test:web",
     "lint:api": "eslint apps/api/src",

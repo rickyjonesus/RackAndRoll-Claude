@@ -1,8 +1,9 @@
 import { LeaguesService } from './leagues.service';
 import { prismaMock } from '../prisma/prisma.mock';
+import type { PrismaService } from '../prisma/prisma.service';
 import { GameType } from '@prisma/client';
 
-const makeService = () => new LeaguesService(prismaMock as any);
+const makeService = () => new LeaguesService(prismaMock as unknown as PrismaService);
 
 const LEAGUE_ID = 'league-1';
 const CREATOR_ID = 'user-1';
@@ -53,7 +54,7 @@ describe('LeaguesService', () => {
       await makeService().generateSchedule(LEAGUE_ID);
 
       const { data } = prismaMock.leagueMatch.createMany.mock.calls[0][0];
-      const pairs = data.map((d: any) => [d.homeId, d.awayId].sort().join('-'));
+      const pairs = data.map((d: { homeId: string; awayId: string }) => [d.homeId, d.awayId].sort().join('-'));
       const unique = new Set(pairs);
       expect(unique.size).toBe(pairs.length);
     });

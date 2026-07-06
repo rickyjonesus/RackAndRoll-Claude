@@ -1,3 +1,4 @@
+import { MatchSummary } from '@rackandroll/shared';
 import { Component, inject, OnInit, signal, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../core/services/api.service';
@@ -20,6 +21,6 @@ import { ApiService } from '../../../core/services/api.service';
 export class HeadToHeadComponent implements OnInit {
   @Input() opponentId!: string;
   private api = inject(ApiService);
-  matches = signal<any[]>([]);
-  ngOnInit() { this.api.get<any[]>(`stats/h2h/${this.opponentId}`).subscribe((m) => this.matches.set(m)); }
+  matches = signal<MatchSummary[]>([]);
+  ngOnInit() { this.api.get<MatchSummary[]>(`stats/h2h/${this.opponentId}`).subscribe((m) => this.matches.set(m)); }
 }

@@ -1,7 +1,9 @@
 import { StatsService } from './stats.service';
 import { prismaMock } from '../prisma/prisma.mock';
+import type { PrismaService } from '../prisma/prisma.service';
+import { GameType } from '@prisma/client';
 
-const makeService = () => new StatsService(prismaMock as any);
+const makeService = () => new StatsService(prismaMock as unknown as PrismaService);
 
 const USER_ID = 'user-1';
 const OTHER_ID = 'user-2';
@@ -68,7 +70,7 @@ describe('StatsService', () => {
       prismaMock.match.findMany.mockResolvedValue([]);
       const since = new Date('2026-01-01');
 
-      await makeService().getSummary(USER_ID, 'EIGHT_BALL' as any, since);
+      await makeService().getSummary(USER_ID, GameType.EIGHT_BALL, since);
 
       expect(prismaMock.match.findMany).toHaveBeenCalledWith(
         expect.objectContaining({

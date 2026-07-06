@@ -4,6 +4,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
 import { AuthService } from '../../core/services/auth.service';
 
+interface UserProfile { displayName: string; homeVenue: string | null; }
+
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -105,7 +107,7 @@ export class ProfileComponent implements OnInit {
   private api = inject(ApiService);
   protected auth = inject(AuthService);
   private fb = inject(FormBuilder);
-  profile = signal<any>(null);
+  profile = signal<UserProfile | null>(null);
 
   initials = computed(() => {
     const name = this.profile()?.displayName ?? '';
@@ -115,7 +117,7 @@ export class ProfileComponent implements OnInit {
   form = this.fb.nonNullable.group({ homeVenue: [''] });
 
   ngOnInit() {
-    this.api.get<any>('users/me').subscribe((p) => {
+    this.api.get<UserProfile>('users/me').subscribe((p) => {
       this.profile.set(p);
       this.form.patchValue({ homeVenue: p.homeVenue ?? '' });
     });

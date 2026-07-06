@@ -3,12 +3,13 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { AuthService } from './auth.service';
 import { prismaMock } from '../prisma/prisma.mock';
+import type { PrismaService } from '../prisma/prisma.service';
 
 jest.mock('bcryptjs');
 
 const mockJwt = { sign: jest.fn().mockReturnValue('signed-token') } as unknown as JwtService;
 
-const makeService = () => new AuthService(prismaMock as any, mockJwt);
+const makeService = () => new AuthService(prismaMock as unknown as PrismaService, mockJwt);
 
 describe('AuthService', () => {
   beforeEach(() => jest.clearAllMocks());
