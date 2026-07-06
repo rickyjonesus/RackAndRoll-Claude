@@ -28,9 +28,6 @@ COPY --from=builder /app/dist/apps/api/main.js ./
 # Copy Prisma schema so migrate deploy can run at startup
 COPY --from=builder /app/apps/api/prisma ./prisma
 
-# Copy the Prisma client generated for linux/alpine
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-
 EXPOSE 3000
 
 CMD ["node", "main.js"]

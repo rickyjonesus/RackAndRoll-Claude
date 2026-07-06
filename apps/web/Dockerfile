@@ -6,13 +6,13 @@ RUN corepack enable && corepack prepare pnpm@10.26.2 --activate
 WORKDIR /app
 
 # Copy workspace manifests for layer caching
-COPY pnpm-workspace.yaml pnpm-lock.yaml package.json nx.json tsconfig.base.json tsconfig.json ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json angular.json tsconfig.base.json tsconfig.json ./
 COPY apps/web ./apps/web
 COPY libs ./libs
 
 RUN pnpm install --frozen-lockfile
 
-RUN pnpm nx build web --configuration=production
+RUN pnpm run build:web
 
 # ---- Production ----
 FROM nginx:alpine AS production
