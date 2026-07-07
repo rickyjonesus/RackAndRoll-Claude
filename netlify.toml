@@ -1,0 +1,4 @@
+[build]
+  base = "/"
+  command = "node apps/web/scripts/set-prod-env.js && nx run web:build"
+  publish = "dist/apps/web/browser"
