@@ -13,7 +13,7 @@ export class StatsController {
 
   @Get('summary')
   @ApiOperation({ summary: 'Get win/loss summary for the current user' })
-  @ApiQuery({ name: 'gameType', enum: GameType, required: false })
+  @ApiQuery({ name: 'gameType', enum: GameType, type: String, required: false })
   @ApiQuery({ name: 'since', required: false, description: 'ISO 8601 date to filter from' })
   @ApiOkResponse({ description: 'Summary stats including win%, streak, and ELO' })
   getSummary(
