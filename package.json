@@ -7,7 +7,7 @@
     "dev:api": "SWC_NODE_PROJECT=apps/api/tsconfig.app.json node --watch -r @swc-node/register apps/api/src/main.ts",
     "dev:web": "nx serve web",
     "build:api": "cd apps/api && webpack-cli build --node-env=production",
-    "build:web": "nx build web",
+    "build:web": "node apps/web/scripts/set-prod-env.js && nx build web",
     "db:migrate": "prisma migrate deploy --schema apps/api/prisma/schema.prisma",
     "db:generate": "prisma generate --schema apps/api/prisma/schema.prisma",
     "db:push": "prisma db push --schema apps/api/prisma/schema.prisma",
