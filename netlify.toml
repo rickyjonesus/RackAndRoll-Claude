@@ -2,3 +2,8 @@
   base = "/"
   command = "node apps/web/scripts/set-prod-env.js && nx run web:build"
   publish = "dist/apps/web/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
