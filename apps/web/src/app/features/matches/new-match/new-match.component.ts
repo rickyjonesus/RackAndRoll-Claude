@@ -78,6 +78,27 @@ interface PlayerResult {
       min-height: unset;
     }
     .selected-player button:hover { background: none; color: var(--color-accent); }
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin: 0.75rem 0 0.25rem;
+    }
+    .field-label:first-child { margin-top: 0; }
+    .info-tip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      border: 1px solid var(--color-text-muted);
+      font-size: 0.7rem;
+      line-height: 1;
+      cursor: help;
+    }
   `],
   template: `
     <div class="new-match">
@@ -90,11 +111,20 @@ interface PlayerResult {
             <button type="button" (click)="clearOpponent()" title="Remove">✕</button>
           </div>
         } @else if (isGuest()) {
-          <input formControlName="guestName" placeholder="Guest name (optional)" />
+          <label class="field-label" for="guestName">
+            Guest name
+            <span class="info-tip" title="Optional. If left blank, the opponent will be logged simply as &quot;Guest&quot;.">i</span>
+          </label>
+          <input id="guestName" formControlName="guestName" placeholder="Guest name (optional)" />
           <button type="button" class="guest-link" (click)="isGuest.set(false)">← Search for a registered player</button>
         } @else {
+          <label class="field-label" for="opponentSearch">
+            Opponent
+            <span class="info-tip" title="Search for the player you're facing by their display name or account email.">i</span>
+          </label>
           <div class="search-wrap">
             <input
+              id="opponentSearch"
               [formControl]="searchCtrl"
               placeholder="Search player by name or email"
               autocomplete="off"
@@ -115,14 +145,22 @@ interface PlayerResult {
           </button>
         }
 
-        <select formControlName="gameType" style="margin-top: 0.75rem">
+        <label class="field-label" for="gameType">
+          Game type
+          <span class="info-tip" title="The billiards variant being played, e.g. 8-Ball, 9-Ball, 10-Ball, or Straight pool.">i</span>
+        </label>
+        <select id="gameType" formControlName="gameType">
           <option value="EIGHT_BALL">8-Ball</option>
           <option value="NINE_BALL">9-Ball</option>
           <option value="TEN_BALL">10-Ball</option>
           <option value="STRAIGHT">Straight</option>
         </select>
 
-        <input formControlName="raceToRacks" type="number" placeholder="Race to (racks)" min="1" />
+        <label class="field-label" for="raceToRacks">
+          Race to (racks)
+          <span class="info-tip" title="The number of racks a player must win to take the match, e.g. a race to 7 ends when someone wins 7 racks.">i</span>
+        </label>
+        <input id="raceToRacks" formControlName="raceToRacks" type="number" placeholder="Race to (racks)" min="1" />
 
         <button type="submit" [disabled]="!canSubmit()">Start Match</button>
       </form>
