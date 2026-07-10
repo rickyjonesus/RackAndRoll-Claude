@@ -19,10 +19,15 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        loader: 'ts-loader',
+        loader: 'swc-loader',
         options: {
-          configFile: path.join(__dirname, 'tsconfig.app.json'),
-          transpileOnly: true,
+          jsc: {
+            parser: { syntax: 'typescript', decorators: true },
+            transform: { legacyDecorator: true, decoratorMetadata: true },
+            keepClassNames: true,
+            target: 'es2021',
+          },
+          module: { type: 'commonjs' },
         },
         exclude: /node_modules/,
       },
