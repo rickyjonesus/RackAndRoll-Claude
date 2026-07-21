@@ -1,0 +1,2 @@
+// TODO: replace with the real deployed API URL (e.g. the Railway-hosted apps/api instance) before shipping.
+API_BASE_URL = https://TODO-set-production-api-url.example.com/api
