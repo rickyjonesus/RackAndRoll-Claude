@@ -14,6 +14,11 @@ struct MainTabView: View {
 
             ScheduleListView(apiClient: apiClient)
                 .tabItem { Label("Schedule", systemImage: "calendar") }
+
+            NavigationStack {
+                PongView()
+            }
+            .tabItem { Label("Pong", systemImage: "gamecontroller.fill") }
         }
     }
 }
