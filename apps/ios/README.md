@@ -32,6 +32,14 @@ The Debug build points at `http://localhost:3000/api` (`Core/Config/Environments
 - `Core/Config/Environments/Debug.xcconfig` / `Release.xcconfig` set `API_BASE_URL`, threaded into `Info.plist` and read by `Core/Config/AppConfig.swift` — mirrors the web app's `environment.ts` / `environment.prod.ts` split.
 - **`Release.xcconfig` has a placeholder API URL** — fill in the real deployed API URL before shipping a release build.
 
+## Pong
+
+There's a bonus Pong mini-game under the **Pong** tab (`Features/Pong`) — a SpriteKit-based
+homage to the original Atari game, rotated into a portrait layout: an AI paddle up top, your
+paddle on the bottom (drag left/right to move it), first to 11 wins. It's fully self-contained
+(no network calls, no bundled art/audio) and the scoring rules live in a plain `PongMatch`
+struct so they're unit-tested without spinning up SpriteKit.
+
 ## Known MVP limitations (see plan for details)
 
 - Email/password auth only — no Sign in with Apple/Google yet (backend's OAuth flow is web-redirect-only).
