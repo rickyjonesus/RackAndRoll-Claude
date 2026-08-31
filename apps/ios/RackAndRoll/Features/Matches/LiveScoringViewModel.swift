@@ -1,3 +1,5 @@
+import Observation
+
 /// `GET /matches/:id` doesn't return `racks` (verified against
 /// matches.service.ts), so score is tracked client-side here — incremented
 /// on each successful rack POST, decremented on undo — exactly like the
