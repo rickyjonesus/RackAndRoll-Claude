@@ -1,4 +1,5 @@
 import Foundation
+import Observation
 
 /// Root of session state. Mirrors `AuthService`'s `state` signal +
 /// `isAuthenticated` computed on the web app, backed by Keychain instead of

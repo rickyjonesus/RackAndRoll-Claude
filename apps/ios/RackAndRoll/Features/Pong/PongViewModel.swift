@@ -1,5 +1,6 @@
 import Foundation
 import CoreGraphics
+import Observation
 
 enum PongPhase {
     case menu
