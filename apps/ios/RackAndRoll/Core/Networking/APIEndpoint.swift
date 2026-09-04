@@ -9,13 +9,13 @@ enum HTTPMethod: String {
 
 /// Describes a single call against the RackAndRoll API. `path` is relative to
 /// the configured base URL (which already includes the `/api` prefix).
-struct APIEndpoint {
+struct APIEndpoint: Sendable {
     let path: String
     let method: HTTPMethod
     let queryItems: [URLQueryItem]
-    let body: (any Encodable)?
+    let body: (any Encodable & Sendable)?
 
-    private init(path: String, method: HTTPMethod, queryItems: [URLQueryItem] = [], body: (any Encodable)? = nil) {
+    private init(path: String, method: HTTPMethod, queryItems: [URLQueryItem] = [], body: (any Encodable & Sendable)? = nil) {
         self.path = path
         self.method = method
         self.queryItems = queryItems
